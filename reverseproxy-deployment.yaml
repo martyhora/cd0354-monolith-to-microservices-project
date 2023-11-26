@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-reverseproxy-app
+  labels:
+    app: backend-reverseproxy-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend-reverseproxy-app
+  template:
+    metadata:
+      labels:
+        app: backend-reverseproxy-app
+    spec:
+      containers:
+        - name: reverseproxy
+          image: mhora1/reverseproxy:v1
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: docker-secrets
