@@ -1,23 +1,69 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-feed-app
+  name: backend-feed
   labels:
-    app: backend-feed-app
+    app: backend-feed
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: backend-feed-app
+      app: backend-feed
   template:
     metadata:
       labels:
-        app: backend-feed-app
+        app: backend-feed
     spec:
       containers:
         - name: backend-feed
           image: mhora1/udagram-api-feed:v1
+          env:
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: postgres-username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: postgres-password
+            - name: POSTGRES_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: postgres-host
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: postgres-db
+            - name: AWS_BUCKET
+              valueFrom:
+                  secretKeyRef:
+                    name: app-secrets
+                    key: aws-bucket
+            - name: AWS_REGION
+              valueFrom:
+                  secretKeyRef:
+                    name: app-secrets
+                    key: aws-region
+            - name: AWS_PROFILE
+              valueFrom:
+                  secretKeyRef:
+                    name: app-secrets
+                    key: aws-profile
+            - name: JWT_SECRET
+              valueFrom:
+                  secretKeyRef:
+                    name: app-secrets
+                    key: jwt-secret
+            - name: URL
+              valueFrom:
+                  secretKeyRef:
+                    name: app-secrets
+                    key: url
           ports:
-            - containerPort: 80
+            - containerPort: 8080
       imagePullSecrets:
         - name: docker-secrets

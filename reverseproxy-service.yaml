@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-reverseproxy-app
+  name: reverseproxy
   labels:
-    run: backend-reverseproxy-app
+    run: reverseproxy
 spec:
   ports:
-    - port: 80
+    - port: 8080
       protocol: TCP
   selector:
-    run: backend-reverseproxy-app
+    run: reverseproxy
